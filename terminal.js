@@ -45,6 +45,7 @@ async function executeCommand(commandLine) {
     switch (command) {
 
         case "DIR":
+        case "LS":
             commandDIR();
             break;
 
@@ -53,6 +54,7 @@ async function executeCommand(commandLine) {
             break;
 
         case "CLS":
+        case "CLEAR":
             output.textContent = "";
             break;
 
