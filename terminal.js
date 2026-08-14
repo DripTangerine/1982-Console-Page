@@ -95,7 +95,7 @@ function commandDIR() {
 async function commandTYPE(filename) {
 
     if (!filename) {
-        print("ERR AA0x2");
+        print("The syntax of the command is incorrect.");
         return;
     }
 
@@ -104,13 +104,18 @@ async function commandTYPE(filename) {
     const file = filesystem[filename];
 
     if (!file || file.type !== "file") {
-        print("ERR AA0x2");
+        print("File not found.");
         return;
     }
+
+    print("Fetching: " + file.path);
 
     try {
 
         const response = await fetch(file.path);
+
+        print("Status: " + response.status);
+        print("URL: " + response.url);
 
         if (!response.ok) {
             print("ERR AA0x3");
@@ -125,7 +130,8 @@ async function commandTYPE(filename) {
 
     } catch (error) {
 
-        print("ERR AA0x3");
+        print("ERR AA0x4");
+        console.error(error);
 
     }
 }
