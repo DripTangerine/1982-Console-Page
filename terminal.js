@@ -135,11 +135,11 @@ async function commandTYPE(filename) {
 function commandHELP() {
 
     print("");
-    print("Available commands:");
+    print("AVAILABLE COMMANDS:");
     print("");
-    print("DIR");
-    print("TYPE <filename>");
-    print("CLS");
+    print("LS------------------DISPLAYS ALL FILES IN CURRENT DIRECTORY");
+    print("TYPE <filename>-----DISPLAYS CONTENTS OF SPECIFIED FILE");
+    print("CLS-----------------CLEARS SCREEN");
     print("HELP");
     print("");
 }
