@@ -57,7 +57,7 @@ async function executeCommand(commandLine) {
     switch (command) {
 
         case "LS":
-            await commandDIR();
+            await commandLS();
             break;
 
         case "TYPE":
@@ -82,19 +82,15 @@ async function executeCommand(commandLine) {
 }
 
 // -------------------------
-// DIR
+// LS
 // -------------------------
 
-async function commandDIR() {
+async function commandLS() {
 
     if (currentPath.length !== 0) {
         await typeText("ERR DFx3");
         return;
     }
-
-    print("");
-    await typeText(" Directory of C:\\");
-    print("");
 
     for (const name in filesystem) {
 
