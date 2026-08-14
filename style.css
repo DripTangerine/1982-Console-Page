@@ -96,3 +96,52 @@ body {
             rgba(0, 0, 0, 0.35) 100%
         );
 }
+
+#input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+#command-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    color: #39ff88;
+    font-family: inherit;
+    font-size: inherit;
+
+    padding: 0;
+
+    caret-color: transparent;
+}
+
+#cursor {
+    position: absolute;
+    left: 0;
+    top: 2px;
+
+    width: 13px;
+    height: 23px;
+
+    background: #39ff88;
+
+    box-shadow:
+        0 0 3px #39ff88,
+        0 0 8px rgba(57, 255, 136, 0.7);
+
+    pointer-events: none;
+
+    animation: cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 50% {
+        opacity: 1;
+    }
+
+    50.01%, 100% {
+        opacity: 0;
+    }
+}
