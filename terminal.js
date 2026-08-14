@@ -92,6 +92,17 @@ function commandDIR() {
 
 // TYPE
 
+const typingSpeed = 15; // milliseconds per character
+
+async function typeText(text) {
+    for (const character of text) {
+        output.textContent += character;
+        await new Promise(resolve => setTimeout(resolve, typingSpeed));
+    }
+
+    output.textContent += "\n";
+}
+
 async function commandTYPE(filename) {
 
     if (!filename) {
@@ -114,9 +125,6 @@ async function commandTYPE(filename) {
 
         const response = await fetch(file.path);
 
-        print("Status: " + response.status);
-        print("URL: " + response.url);
-
         if (!response.ok) {
             print("ERR AA0x3");
             return;
@@ -124,9 +132,9 @@ async function commandTYPE(filename) {
 
         const text = await response.text();
 
-        print("");
-        print(text);
-        print("");
+    print("");
+    await typeText(text);
+    print("");
 
     } catch (error) {
 
