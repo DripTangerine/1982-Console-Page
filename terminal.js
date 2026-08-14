@@ -28,7 +28,7 @@ function updatePrompt() {
 const filesystem = {
     "README.TXT": {
         type: "file",
-        path: "C:/README.TXT"
+        path: "./C:/README.TXT"
     }
 };
 
