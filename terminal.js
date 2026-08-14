@@ -60,8 +60,12 @@ async function executeCommand(commandLine) {
             commandHELP();
             break;
 
+        case "ERROR":
+            commandERROR();
+            break;
+
         default:
-            print("ERR AA0x2");
+            print("ERR SYx1");
     }
 }
 
@@ -70,7 +74,7 @@ async function executeCommand(commandLine) {
 function commandDIR() {
 
     if (currentPath.length !== 0) {
-        print("DIRECTORY NOT FOUND");
+        print("ERR DFx3");
         return;
     }
 
@@ -106,7 +110,7 @@ async function typeText(text) {
 async function commandTYPE(filename) {
 
     if (!filename) {
-        print("The syntax of the command is incorrect.");
+        print("ERR FFx2");
         return;
     }
 
@@ -115,18 +119,16 @@ async function commandTYPE(filename) {
     const file = filesystem[filename];
 
     if (!file || file.type !== "file") {
-        print("File not found.");
+        print("ERR FFx2");
         return;
     }
-
-    print("Fetching: " + file.path);
 
     try {
 
         const response = await fetch(file.path);
 
         if (!response.ok) {
-            print("ERR AA0x3");
+            print("ERR FFx2");
             return;
         }
 
@@ -138,7 +140,7 @@ async function commandTYPE(filename) {
 
     } catch (error) {
 
-        print("ERR AA0x4");
+        print("ERR FFx2");
         console.error(error);
 
     }
@@ -157,6 +159,23 @@ function commandHELP() {
     print("HELP -----------------  DISPLAYS CURRENT SCREEN");
     print("");
 }
+
+// ERROR
+
+function commandERROR() {
+
+    print("");
+    print("ERROR CODES:");
+    print("");
+    print("ERR SYx1 -- COMMAND SYNTAX FAILED");
+    print("");
+    print("ERR FFx2 -- FILE NOT FOUND");
+    print("");
+    print("ERR DFx3 -- DIRECTORY NOT FOUND");
+    print("");
+    print("ERR ICx4 -- INSUFFICIENT CLEARANCE");
+}
+
 
 // INPUT
 
