@@ -184,34 +184,41 @@ function commandERROR() {
 const cursor = document.getElementById("cursor");
 
 function updateCursor() {
-    const text = input.value;
     const position = input.selectionStart;
 
     const measure = document.createElement("span");
 
+    const styles = getComputedStyle(input);
+
     measure.style.position = "absolute";
     measure.style.visibility = "hidden";
     measure.style.whiteSpace = "pre";
-    measure.style.font = getComputedStyle(input).font;
 
-    measure.textContent = text.substring(0, position);
+    measure.style.fontFamily = styles.fontFamily;
+    measure.style.fontSize = styles.fontSize;
+    measure.style.fontWeight = styles.fontWeight;
+    measure.style.fontStyle = styles.fontStyle;
+    measure.style.letterSpacing = styles.letterSpacing;
+
+    measure.textContent = input.value.substring(0, position);
 
     document.body.appendChild(measure);
 
-    cursor.style.left = measure.offsetWidth + "px";
+    const textWidth = measure.getBoundingClientRect().width;
 
     measure.remove();
+
+    cursor.style.left = (textWidth - input.scrollLeft) + "px";
 }
 
 input.addEventListener("input", updateCursor);
-
 input.addEventListener("click", updateCursor);
-
 input.addEventListener("keyup", updateCursor);
-
+input.addEventListener("select", updateCursor);
 input.addEventListener("focus", updateCursor);
-
-input.addEventListener("blur", () => {
+input.addEventListener("keydown", () => {
+    requestAnimationFrame(updateCursor);
+});
     cursor.style.opacity = "0";
 });
 
