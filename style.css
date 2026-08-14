@@ -5,7 +5,7 @@ body {
     background: #111;
     color: #39ff88;
     font-family: "VT323", monospace;
-    font-size: 24px;
+    font-size: 48px;
 }
 
 /* The CRT screen */
@@ -14,7 +14,7 @@ body {
     
     width: 80vw;
     height: 80vh;
-    margin: 5vh auto;
+    margin: 10vh auto;
 
     padding: 40px;
 
