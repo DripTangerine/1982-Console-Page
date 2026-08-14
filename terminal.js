@@ -44,7 +44,6 @@ async function executeCommand(commandLine) {
 
     switch (command) {
 
-        case "DIR":
         case "LS":
             commandDIR();
             break;
@@ -54,7 +53,6 @@ async function executeCommand(commandLine) {
             break;
 
         case "CLS":
-        case "CLEAR":
             output.textContent = "";
             break;
 
@@ -67,9 +65,7 @@ async function executeCommand(commandLine) {
     }
 }
 
-// -------------------------
 // DIR
-// -------------------------
 
 function commandDIR() {
 
@@ -94,9 +90,7 @@ function commandDIR() {
     print("");
 }
 
-// -------------------------
 // TYPE
-// -------------------------
 
 async function commandTYPE(filename) {
 
@@ -136,9 +130,7 @@ async function commandTYPE(filename) {
     }
 }
 
-// -------------------------
 // HELP
-// -------------------------
 
 function commandHELP() {
 
@@ -152,9 +144,7 @@ function commandHELP() {
     print("");
 }
 
-// -------------------------
 // INPUT
-// -------------------------
 
 input.addEventListener("keydown", async function(event) {
 
