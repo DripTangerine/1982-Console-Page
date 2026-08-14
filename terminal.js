@@ -181,6 +181,40 @@ function commandERROR() {
 
 // INPUT
 
+const cursor = document.getElementById("cursor");
+
+function updateCursor() {
+    const text = input.value;
+    const position = input.selectionStart;
+
+    const measure = document.createElement("span");
+
+    measure.style.position = "absolute";
+    measure.style.visibility = "hidden";
+    measure.style.whiteSpace = "pre";
+    measure.style.font = getComputedStyle(input).font;
+
+    measure.textContent = text.substring(0, position);
+
+    document.body.appendChild(measure);
+
+    cursor.style.left = measure.offsetWidth + "px";
+
+    measure.remove();
+}
+
+input.addEventListener("input", updateCursor);
+
+input.addEventListener("click", updateCursor);
+
+input.addEventListener("keyup", updateCursor);
+
+input.addEventListener("focus", updateCursor);
+
+input.addEventListener("blur", () => {
+    cursor.style.opacity = "0";
+});
+
 input.addEventListener("keydown", async function(event) {
 
     if (event.key !== "Enter") {
@@ -203,3 +237,4 @@ input.addEventListener("keydown", async function(event) {
 });
 
 updatePrompt();
+updateCursor();
