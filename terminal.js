@@ -21,6 +21,17 @@ function updatePrompt() {
     }
 }
 
+const typingSpeed = 15; // milliseconds per character
+
+async function typeText(text) {
+    for (const character of text) {
+        output.textContent += character;
+        await new Promise(resolve => setTimeout(resolve, typingSpeed));
+    }
+
+    output.textContent += "\n";
+}
+
 // -------------------------
 // FILESYSTEM
 // -------------------------
@@ -65,7 +76,7 @@ async function executeCommand(commandLine) {
             break;
 
         default:
-            print("ERR SYx1");
+            await typeText("ERR SYx1");
     }
 }
 
@@ -74,12 +85,12 @@ async function executeCommand(commandLine) {
 function commandDIR() {
 
     if (currentPath.length !== 0) {
-        print("ERR DFx3");
+        await typeText("ERR DFx3");
         return;
     }
 
     print("");
-    print(" Directory of C:\\");
+    await typeText(" Directory of C:\\");
     print("");
 
     for (const name in filesystem) {
@@ -87,7 +98,7 @@ function commandDIR() {
         const item = filesystem[name];
 
         if (item.type === "file") {
-            print(name);
+            await typeText(name);
         }
     }
 
@@ -96,21 +107,10 @@ function commandDIR() {
 
 // TYPE
 
-const typingSpeed = 15; // milliseconds per character
-
-async function typeText(text) {
-    for (const character of text) {
-        output.textContent += character;
-        await new Promise(resolve => setTimeout(resolve, typingSpeed));
-    }
-
-    output.textContent += "\n";
-}
-
 async function commandTYPE(filename) {
 
     if (!filename) {
-        print("ERR FFx2");
+        await typeText("ERR FFx2");
         return;
     }
 
@@ -119,7 +119,7 @@ async function commandTYPE(filename) {
     const file = filesystem[filename];
 
     if (!file || file.type !== "file") {
-        print("ERR FFx2");
+        await typeText("ERR FFx2");
         return;
     }
 
@@ -128,7 +128,7 @@ async function commandTYPE(filename) {
         const response = await fetch(file.path);
 
         if (!response.ok) {
-            print("ERR FFx2");
+            await typeText("ERR FFx2");
             return;
         }
 
@@ -136,11 +136,10 @@ async function commandTYPE(filename) {
 
     print("");
     await typeText(text);
-    print("");
 
     } catch (error) {
 
-        print("ERR FFx2");
+        await typeText("ERR FFx2");
         console.error(error);
 
     }
@@ -151,15 +150,14 @@ async function commandTYPE(filename) {
 function commandHELP() {
 
     print("");
-    print("AVAILABLE COMMANDS:");
+    await typeText("AVAILABLE COMMANDS:");
     print("");
-    print("LS  --  DISPLAYS ALL FILES IN CURRENT DIRECTORY");
-    print("TYPE_<filename>  --  DISPLAYS CONTENTS OF SPECIFIED FILE");
-    print("CLS  --  CLEARS SCREEN");
-    print("HELP --  DISPLAYS CURRENT SCREEN");
+    await typeText("LS  --  DISPLAYS ALL FILES IN CURRENT DIRECTORY");
+    await typeText("TYPE_<filename>  --  DISPLAYS CONTENTS OF SPECIFIED FILE");
+    await typeText("CLS  --  CLEARS SCREEN");
+    await typeText("HELP --  DISPLAYS CURRENT SCREEN");
     print("");
-    print("ERROR --  DISPLAYS ERROR CODES");
-    print("");
+    await typeText("ERROR --  DISPLAYS ERROR CODES");
 }
 
 // ERROR
@@ -167,15 +165,12 @@ function commandHELP() {
 function commandERROR() {
 
     print("");
-    print("ERROR CODES:");
+    await typeText("ERROR CODES:");
     print("");
-    print("ERR SYx1 -- COMMAND SYNTAX FAILED");
-    print("");
-    print("ERR FFx2 -- FILE NOT FOUND");
-    print("");
-    print("ERR DFx3 -- DIRECTORY NOT FOUND");
-    print("");
-    print("ERR ICx4 -- INSUFFICIENT CLEARANCE");
+    await typeText("ERR SYx1 -- COMMAND SYNTAX FAILED");
+    await typeText("ERR FFx2 -- FILE NOT FOUND");
+    await typeText("ERR DFx3 -- DIRECTORY NOT FOUND");
+    await typeText("ERR ICx4 -- INSUFFICIENT CLEARANCE");
 }
 
 
