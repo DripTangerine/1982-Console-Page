@@ -61,7 +61,7 @@ async function executeCommand(commandLine) {
             break;
 
         default:
-            print("ERR");
+            print("ERR AA0x2");
     }
 }
 
@@ -95,7 +95,7 @@ function commandDIR() {
 async function commandTYPE(filename) {
 
     if (!filename) {
-        print("ERR");
+        print("ERR AA0x2");
         return;
     }
 
@@ -104,7 +104,7 @@ async function commandTYPE(filename) {
     const file = filesystem[filename];
 
     if (!file || file.type !== "file") {
-        print("ERR");
+        print("ERR AA0x2");
         return;
     }
 
@@ -113,7 +113,7 @@ async function commandTYPE(filename) {
         const response = await fetch(file.path);
 
         if (!response.ok) {
-            print("ERR");
+            print("ERR AA0x3");
             return;
         }
 
@@ -125,7 +125,7 @@ async function commandTYPE(filename) {
 
     } catch (error) {
 
-        print("ERR");
+        print("ERR AA0x3");
 
     }
 }
