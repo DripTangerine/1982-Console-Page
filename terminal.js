@@ -61,7 +61,7 @@ async function executeCommand(commandLine) {
             break;
 
         default:
-            print("Bad command or file name.");
+            print("ERR");
     }
 }
 
@@ -72,7 +72,7 @@ async function executeCommand(commandLine) {
 function commandDIR() {
 
     if (currentPath.length !== 0) {
-        print("Directory not found.");
+        print("DIRECTORY NOT FOUND");
         return;
     }
 
@@ -99,7 +99,7 @@ function commandDIR() {
 async function commandTYPE(filename) {
 
     if (!filename) {
-        print("The syntax of the command is incorrect.");
+        print("ERR");
         return;
     }
 
@@ -108,7 +108,7 @@ async function commandTYPE(filename) {
     const file = filesystem[filename];
 
     if (!file || file.type !== "file") {
-        print("File not found.");
+        print("ERR");
         return;
     }
 
@@ -117,7 +117,7 @@ async function commandTYPE(filename) {
         const response = await fetch(file.path);
 
         if (!response.ok) {
-            print("Error reading file.");
+            print("ERR");
             return;
         }
 
@@ -129,7 +129,7 @@ async function commandTYPE(filename) {
 
     } catch (error) {
 
-        print("Error reading file.");
+        print("ERR");
 
     }
 }
