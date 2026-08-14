@@ -268,7 +268,7 @@ input.addEventListener("keydown", async function(event) {
 });
 
 updatePrompt();
-updateCursor();const output = document.getElementById("output");
+updateCursor();
 const input = document.getElementById("command-input");
 const prompt = document.getElementById("prompt");
 
