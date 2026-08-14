@@ -176,7 +176,7 @@ async function commandERROR() {
     await typeText("ERROR CODES:");
     print("");
 
-    await typeText("ERR SYx1 -- COMMAND SYNTAX FAILED");
+    await typeText("ERR SYx1 -- COMMAND SYNTAX NOT FOUND OR FAILED");
     await typeText("ERR FFx2 -- FILE NOT FOUND");
     await typeText("ERR DFx3 -- DIRECTORY NOT FOUND");
     await typeText("ERR ICx4 -- INSUFFICIENT CLEARANCE");
