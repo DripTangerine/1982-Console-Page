@@ -158,6 +158,8 @@ function commandHELP() {
     print("CLS  -----------------  CLEARS SCREEN");
     print("HELP -----------------  DISPLAYS CURRENT SCREEN");
     print("");
+    print("ERROR ----------------  DISPLAYS ERROR CODES");
+    print("");
 }
 
 // ERROR
