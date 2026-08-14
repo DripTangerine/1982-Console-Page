@@ -138,7 +138,7 @@ function commandHELP() {
     print("AVAILABLE COMMANDS:");
     print("");
     print("LS------------------DISPLAYS ALL FILES IN CURRENT DIRECTORY");
-    print("TYPE <filename>-----DISPLAYS CONTENTS OF SPECIFIED FILE");
+    print("TYPE_<filename>-----DISPLAYS CONTENTS OF SPECIFIED FILE");
     print("CLS-----------------CLEARS SCREEN");
     print("HELP");
     print("");
