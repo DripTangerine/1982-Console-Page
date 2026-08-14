@@ -151,10 +151,10 @@ function commandHELP() {
     print("");
     print("AVAILABLE COMMANDS:");
     print("");
-    print("LS------------------DISPLAYS ALL FILES IN CURRENT DIRECTORY");
-    print("TYPE_<filename>-----DISPLAYS CONTENTS OF SPECIFIED FILE");
-    print("CLS-----------------CLEARS SCREEN");
-    print("HELP");
+    print("LS  ------------------  DISPLAYS ALL FILES IN CURRENT DIRECTORY");
+    print("TYPE_<filename>  -----  DISPLAYS CONTENTS OF SPECIFIED FILE");
+    print("CLS  -----------------  CLEARS SCREEN");
+    print("HELP -----------------  DISPLAYS CURRENT SCREEN");
     print("");
 }
 
