@@ -9,6 +9,7 @@ let pendingTypeTimer = null;
 
 let loggedIn = false;
 let loginStage = "username";
+let loginBusy = false;
 
 const loginUsername = "ADMIN";
 const loginPassword = "1982";
@@ -108,6 +109,7 @@ async function processLogin(value) {
             await typeText("PASSWORD:");
 
             loginStage = "password";
+            input.type = "password";
 
         } else {
 
@@ -138,8 +140,9 @@ async function processLogin(value) {
 
             loggedIn = true;
 
+            input.type = "text";
             input.value = "";
-
+            
             updatePrompt();
 
         } else {
