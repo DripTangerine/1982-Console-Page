@@ -66,7 +66,7 @@ function updatePrompt() {
     }
 }
 
-const typingSpeed = 15;
+let typingSpeed = 15;
 
 async function typeText(text) {
     for (const character of text) {
