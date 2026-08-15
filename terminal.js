@@ -20,7 +20,7 @@ async function loadingBar(length = 20) {
 
     const barElement = document.createElement("div");
 
-    barElement.textContent = "[" + ".".repeat(length) + "]";
+    barElement.textContent = "[                    ]";
 
     output.appendChild(barElement);
 
@@ -34,19 +34,21 @@ async function loadingBar(length = 20) {
 
         await pause(delay);
 
-        const bar =
-            "■".repeat(i + 1) +
-            ".".repeat(length - i - 1);
+        const percentage = Math.round(((i + 1) / length) * 100);
 
-        barElement.textContent = "[" + bar + "]";
+        barElement.textContent =
+            "[" +
+            "#".repeat(i + 1) +
+            "-".repeat(length - i - 1) +
+            "] " +
+            percentage +
+            "%";
 
         window.scrollTo(0, document.body.scrollHeight);
     }
 
-    // Add an empty line after the loading bar
-    const spacer = document.createElement("div");
-    spacer.textContent = "";
-    output.appendChild(spacer);
+    // Explicitly create a new line after the bar
+    output.appendChild(document.createElement("div"));
 }
 // -------------------------
 // TERMINAL OUTPUT
