@@ -42,8 +42,12 @@ async function loadingBar(length = 20) {
 
         window.scrollTo(0, document.body.scrollHeight);
     }
-}
 
+    // Add an empty line after the loading bar
+    const spacer = document.createElement("div");
+    spacer.textContent = "";
+    output.appendChild(spacer);
+}
 // -------------------------
 // TERMINAL OUTPUT
 // -------------------------
