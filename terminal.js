@@ -4,6 +4,8 @@ const prompt = document.getElementById("prompt");
 const cursor = document.getElementById("cursor");
 
 let currentPath = [];
+let pendingType = null;
+let pendingTypeTimer = null;
 
 // -------------------------
 // TERMINAL OUTPUT
@@ -108,9 +110,6 @@ async function commandLS() {
 // TYPE
 // -------------------------
 
-let pendingType = null;
-let pendingTimer = null;
-
 async function commandTYPE(filename) {
 
     if (!filename) {
@@ -128,29 +127,109 @@ async function commandTYPE(filename) {
     }
 
     // If another TYPE command is waiting,
-    // start both together.
-    if (pendingType) {
+    // run both files together.
+    if (pendingType !== null) {
 
-        clearTimeout(pendingTimer);
+        clearTimeout(pendingTypeTimer);
 
         const firstFile = pendingType;
+
         pendingType = null;
+        pendingTypeTimer = null;
 
         await runSyncedFiles(firstFile, file);
+
         return;
     }
 
-    // Wait 500ms before running normally.
+    // Wait 500 ms to see if another TYPE command arrives.
     pendingType = file;
 
-    pendingTimer = setTimeout(async () => {
+    pendingTypeTimer = setTimeout(async () => {
 
         if (pendingType === file) {
+
             pendingType = null;
+            pendingTypeTimer = null;
+
             await runFile(file);
         }
 
     }, 500);
+}
+
+async function runFile(file) {
+
+    try {
+
+        const response = await fetch(file.path);
+
+        if (!response.ok) {
+            await typeText("ERR FFx2");
+            return;
+        }
+
+        const text = await response.text();
+
+        print("");
+        await typeText(text);
+
+    } catch (error) {
+
+        await typeText("ERR FFx2");
+        console.error(error);
+
+    }
+}
+
+async function runSyncedFiles(file1, file2) {
+
+    try {
+
+        const [response1, response2] = await Promise.all([
+            fetch(file1.path),
+            fetch(file2.path)
+        ]);
+
+        if (!response1.ok || !response2.ok) {
+            await typeText("ERR FFx2");
+            return;
+        }
+
+        const [text1, text2] = await Promise.all([
+            response1.text(),
+            response2.text()
+        ]);
+
+        print("");
+
+        const length = Math.max(text1.length, text2.length);
+
+        for (let i = 0; i < length; i++) {
+
+            if (i < text1.length) {
+                output.textContent += text1[i];
+            }
+
+            if (i < text2.length) {
+                output.textContent += text2[i];
+            }
+
+            await new Promise(resolve =>
+                setTimeout(resolve, typingSpeed)
+            );
+        }
+
+        output.textContent += "\n";
+
+        window.scrollTo(0, document.body.scrollHeight);
+
+    } catch (error) {
+
+        await typeText("ERR FFx2");
+        console.error(error);
+
+    }
 }
 
 // -------------------------
