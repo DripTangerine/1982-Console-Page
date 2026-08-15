@@ -120,6 +120,8 @@ async function showLogin() {
     await typeText("COPYRIGHT 1982")
     await pause(500)
     await loadingBar(20);
+    print("");
+    await pause(250)
     await typeText("SYSTEM ACCESS REQUIRED");
     print("");
 
