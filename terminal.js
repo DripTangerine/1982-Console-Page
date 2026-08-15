@@ -18,27 +18,26 @@ const loginPassword = "1982";
 
 async function loadingBar(length = 20) {
 
-    // Create one line for the loading bar
     const barElement = document.createElement("div");
 
-    // Start with an empty bar
-    barElement.textContent = "[" + " ".repeat(length) + "]";
+    barElement.textContent = "[" + ".".repeat(length) + "]";
 
     output.appendChild(barElement);
 
     for (let i = 0; i < length; i++) {
 
-        // Random delay between 50 and 250 ms
-        const delay = 50 + Math.random() * 200;
+        let delay = 60 + Math.random() * 120;
+
+        if (Math.random() < 0.15) {
+            delay += 300 + Math.random() * 500;
+        }
 
         await pause(delay);
 
-        // Build the current state of the bar
         const bar =
             "■".repeat(i + 1) +
-            " ".repeat(length - i - 1);
+            ".".repeat(length - i - 1);
 
-        // Update the EXISTING line
         barElement.textContent = "[" + bar + "]";
 
         window.scrollTo(0, document.body.scrollHeight);
