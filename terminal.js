@@ -10,6 +10,7 @@ let pendingTypeTimer = null;
 let loggedIn = false;
 let loginStage = "username";
 let loginBusy = false;
+let passwordDisplay = "";
 
 const loginUsername = "ADMIN";
 const loginPassword = "1982";
@@ -83,7 +84,10 @@ async function showLogin() {
 
     prompt.textContent = "";
 
+    input.type = "text";
     input.value = "";
+    passwordDisplay = "";
+
     input.focus();
 
     cursor.style.opacity = "1";
@@ -130,39 +134,37 @@ async function processLogin(value) {
         if (loginStage === "password") {
 
             if (value === loginPassword) {
-
-                print("PASSWORD: ********");
+        
+                print("PASSWORD: " + "*".repeat(value.length));
                 print("");
-
+        
                 await typeText("ACCESS GRANTED");
                 print("");
-
+        
                 loggedIn = true;
-
-                input.type = "text";
+                loginStage = "username";
+        
                 input.value = "";
-
+                passwordDisplay = "";
+        
                 updatePrompt();
-
+        
             } else {
-
-                print("PASSWORD: ********");
+        
+                print("PASSWORD: " + "*".repeat(value.length));
                 await typeText("ACCESS DENIED");
                 print("");
-
+        
                 await typeText("PASSWORD:");
-
+        
                 input.value = "";
+                passwordDisplay = "";
             }
+        
+            loginBusy = false;
+            input.focus();
+            updateCursor();
         }
-
-    } finally {
-
-        loginBusy = false;
-
-        input.focus();
-        updateCursor();
-    }
 }
 
 async function executeCommand(commandLine) {
