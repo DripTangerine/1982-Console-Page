@@ -116,7 +116,7 @@ async function showLogin() {
     cursor.style.opacity = "0";
 
     loginBusy = true;
-    typingSpeed = 2;
+    typingSpeed = 1;
     await typeText(String.raw`         _       _    _                   _             _            _        _        _          _             _      
         / /\    / /\ / /\                _\ \          /\ \         /\ \     /\ \     /\_\       /\ \     _    /\ \    
        / / /   / / // /  \              /\__ \        /  \ \       /  \ \____\ \ \   / / /      /  \ \   /\_\ /  \ \   
