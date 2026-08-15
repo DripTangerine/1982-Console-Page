@@ -76,65 +76,67 @@ async function showLogin() {
     await typeText("SYSTEM ACCESS REQUIRED");
     print("");
 
-    await typeText("USERNAME:");
-    
-    prompt.textContent = "";
-
+    prompt.textContent = "USERNAME:";
     input.value = "";
+
     input.focus();
+    updateCursor();
 }
 
 async function processLogin(value) {
 
     if (loginStage === "username") {
 
+        print("USERNAME: " + value);
+
         if (value.toUpperCase() === loginUsername) {
 
-            print("USERNAME: " + value);
             print("");
 
-            await typeText("PASSWORD:");
-
             loginStage = "password";
+
+            prompt.textContent = "PASSWORD:";
             input.value = "";
 
         } else {
 
-            print("USERNAME: " + value);
             await typeText("INVALID USERNAME");
             print("");
 
-            await typeText("USERNAME:");
+            prompt.textContent = "USERNAME:";
             input.value = "";
         }
 
+        updateCursor();
         return;
     }
 
     if (loginStage === "password") {
 
+        print("PASSWORD: ********");
+
         if (value === loginPassword) {
 
-            print("PASSWORD: ********");
             print("");
-
             await typeText("ACCESS GRANTED");
             print("");
 
             loggedIn = true;
 
-            updatePrompt();
-
             input.value = "";
+
+            updatePrompt();
+            updateCursor();
 
         } else {
 
-            print("PASSWORD: ********");
             await typeText("ACCESS DENIED");
             print("");
 
-            await typeText("PASSWORD:");
+            prompt.textContent = "PASSWORD:";
             input.value = "";
+
+            updateCursor();
         }
     }
 }
