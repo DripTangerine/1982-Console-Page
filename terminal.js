@@ -16,6 +16,27 @@ let passwordValue = "";
 const loginUsername = "ADMIN";
 const loginPassword = "1982";
 
+async function loadingBar(length = 20) {
+
+    let bar = "";
+
+    for (let i = 0; i < length; i++) {
+
+        // Random delay between 50 and 250 ms
+        const delay = 50 + Math.random() * 200;
+
+        await pause(delay);
+
+        bar += "■";
+
+        output.textContent += "\r[" + bar + " ".repeat(length - bar.length) + "]";
+
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    output.textContent += "\n";
+}
+
 // -------------------------
 // TERMINAL OUTPUT
 // -------------------------
@@ -43,6 +64,10 @@ async function typeText(text) {
 
     output.textContent += "\n";
     window.scrollTo(0, document.body.scrollHeight);
+}
+
+function pause(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // -------------------------
@@ -77,7 +102,11 @@ async function showLogin() {
 
     cursor.style.opacity = "0";
 
-    await typeText("1982 CONSOLE SYSTEM");
+    await typeText("HALODYNE COMPUTING");
+    await pause(200)
+    await typeText("COPYRIGHT 1982")
+    await pause(500)
+    await loadingBar(20);
     await typeText("SYSTEM ACCESS REQUIRED");
     print("");
 
