@@ -44,7 +44,18 @@ const filesystem = {
     "README.TXT": {
         type: "file",
         path: "./C:/README.TXT"
+    },
+
+    "TEST1.TXT": {
+        type: "file",
+        path: "./C:/TEST1.TXT"
+    },
+
+    "TEST2.TXT": {
+        type: "file",
+        path: "./C:/TEST2.TXT"
     }
+    
 };
 
 // -------------------------
