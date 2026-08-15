@@ -117,7 +117,7 @@ async function showLogin() {
 
     loginBusy = true;
 
-    typingSpeed = 2
+    typingSpeed = 2;
 
     await typeText(String.raw`         _       _    _                   _             _            _        _        _          _             _      
         / /\    / /\ / /\                _\ \          /\ \         /\ \     /\ \     /\_\       /\ \     _    /\ \    
@@ -131,7 +131,7 @@ async function showLogin() {
 / / /   / / // / /_       __\ \_\/_______/\__\// / /____\/ /   \ \___\/ /           \ \_\/ / /    / / // / /_______\   
 \/_/    \/_/ \_\___\     /____/_/\_______\/    \/_________/     \/_____/             \/_/\/_/     \/_/ \/__________/   `)
     
-    typingSpeed = 15
+    typingSpeed = 15;
     
     await typeText("HALODYNE COMPUTING");
     await pause(200);
