@@ -47,12 +47,11 @@ async function loadingBar(length = 20) {
         window.scrollTo(0, document.body.scrollHeight);
     }
 
-    // Explicitly create a new line after the bar
     output.appendChild(document.createElement("div"));
 }
-// -------------------------
+
 // TERMINAL OUTPUT
-// -------------------------
+
 
 function print(text = "") {
     output.textContent += text + "\n";
@@ -83,9 +82,9 @@ function pause(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// -------------------------
+
 // FILESYSTEM
-// -------------------------
+
 
 const filesystem = {
     "README.TXT": {
@@ -105,9 +104,9 @@ const filesystem = {
     
 };
 
-// -------------------------
+
 // COMMANDS
-// -------------------------
+
 
 async function showLogin() {
 
@@ -250,9 +249,7 @@ async function executeCommand(commandLine) {
     }
 }
 
-// -------------------------
 // LS
-// -------------------------
 
 async function commandLS() {
 
@@ -273,9 +270,7 @@ async function commandLS() {
     print("");
 }
 
-// -------------------------
 // TYPE
-// -------------------------
 
 async function commandTYPE(filename) {
 
@@ -399,9 +394,7 @@ async function runSyncedFiles(file1, file2) {
     }
 }
 
-// -------------------------
 // HELP
-// -------------------------
 
 async function commandHELP() {
 
@@ -413,15 +406,11 @@ async function commandHELP() {
     await typeText("TYPE_<filename>  --  DISPLAYS CONTENTS OF SPECIFIED FILE");
     await typeText("CLS  --  CLEARS SCREEN");
     await typeText("HELP --  DISPLAYS CURRENT SCREEN");
-
-    print("");
-
     await typeText("ERROR --  DISPLAYS ERROR CODES");
+    print("");
 }
 
-// -------------------------
 // ERROR
-// -------------------------
 
 async function commandERROR() {
 
@@ -435,9 +424,7 @@ async function commandERROR() {
     await typeText("ERR ICx4 -- INSUFFICIENT CLEARANCE");
 }
 
-// -------------------------
 // INPUT / CURSOR
-// -------------------------
 
 function updateCursor() {
 
