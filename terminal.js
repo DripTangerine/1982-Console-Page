@@ -195,6 +195,9 @@ async function processLogin(value) {
             input.value = "";
             passwordValue = "";
 
+            await pause(200)
+            output.textContent = "";
+
             updatePrompt();
 
         } else {
