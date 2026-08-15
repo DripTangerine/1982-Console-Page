@@ -72,15 +72,20 @@ async function showLogin() {
 
     output.textContent = "";
 
+    cursor.style.opacity = "0";
+
     await typeText("1982 CONSOLE SYSTEM");
     await typeText("SYSTEM ACCESS REQUIRED");
     print("");
 
-    prompt.textContent = "USERNAME:";
-    input.value = "";
+    await typeText("USERNAME:");
 
+    prompt.textContent = "";
+
+    input.value = "";
     input.focus();
-    updateCursor();
+
+    cursor.style.opacity = "1";
 }
 
 async function processLogin(value) {
