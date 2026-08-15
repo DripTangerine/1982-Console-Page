@@ -18,23 +18,29 @@ const loginPassword = "1982";
 
 async function loadingBar(length = 20) {
 
-    let bar = "";
+    const barElement = document.createElement("div");
+
+    barElement.textContent = "[" + " ".repeat(length) + "]";
+
+    output.appendChild(barElement);
 
     for (let i = 0; i < length; i++) {
 
-        // Random delay between 50 and 250 ms
-        const delay = 50 + Math.random() * 200;
+        let delay = 50 + Math.random() * 200;
+
+        if (Math.random() < 0.15) {
+            delay += 300 + Math.random() * 700;
+        }
 
         await pause(delay);
 
-        bar += "■";
+        let bar = "■".repeat(i + 1);
+        let spaces = " ".repeat(length - i - 1);
 
-        output.textContent += "\r[" + bar + " ".repeat(length - bar.length) + "]";
+        barElement.textContent = "[" + bar + spaces + "]";
 
         window.scrollTo(0, document.body.scrollHeight);
     }
-
-    output.textContent += "\n";
 }
 
 // -------------------------
