@@ -115,6 +115,8 @@ async function showLogin() {
 
     cursor.style.opacity = "0";
 
+    loginBusy = true;
+    
     await typeText("HALODYNE COMPUTING");
     await pause(200);
     await typeText("COPYRIGHT 1982");
@@ -136,6 +138,7 @@ async function showLogin() {
     input.focus();
     
     cursor.style.opacity = "1";
+    loginBusy = false;
 }
 
 async function processLogin(value) {
