@@ -85,39 +85,49 @@ async function showLogin() {
 
 async function processLogin(value) {
 
-    if (loginStage === "username") {
+    if (loginBusy) {
+        return;
+    }
 
-        print("USERNAME: " + value);
+    loginBusy = true;
+
+    if (loginStage === "username") {
 
         if (value.toUpperCase() === loginUsername) {
 
+            print("USERNAME: " + value);
             print("");
+
+            input.value = "";
+
+            await typeText("PASSWORD:");
 
             loginStage = "password";
 
-            prompt.textContent = "PASSWORD:";
-            input.value = "";
-
         } else {
 
+            print("USERNAME: " + value);
             await typeText("INVALID USERNAME");
             print("");
 
-            prompt.textContent = "USERNAME:";
-            input.value = "";
+            await typeText("USERNAME:");
         }
 
+        input.value = "";
+        loginBusy = false;
+        input.focus();
         updateCursor();
+
         return;
     }
 
     if (loginStage === "password") {
 
-        print("PASSWORD: ********");
-
         if (value === loginPassword) {
 
+            print("PASSWORD: ********");
             print("");
+
             await typeText("ACCESS GRANTED");
             print("");
 
@@ -126,18 +136,21 @@ async function processLogin(value) {
             input.value = "";
 
             updatePrompt();
-            updateCursor();
 
         } else {
 
+            print("PASSWORD: ********");
             await typeText("ACCESS DENIED");
             print("");
 
-            prompt.textContent = "PASSWORD:";
-            input.value = "";
+            await typeText("PASSWORD:");
 
-            updateCursor();
+            input.value = "";
         }
+
+        loginBusy = false;
+        input.focus();
+        updateCursor();
     }
 }
 
@@ -422,6 +435,10 @@ input.addEventListener("keydown", async function (event) {
 
     event.preventDefault();
 
+    if (loginBusy) {
+        return;
+    }
+
     const commandLine = input.value.trim();
 
     if (!commandLine) {
@@ -451,6 +468,5 @@ input.addEventListener("keydown", async function (event) {
 
     input.focus();
 });
-
 updatePrompt();
 showLogin();
