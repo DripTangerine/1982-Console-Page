@@ -11,6 +11,7 @@ let loggedIn = false;
 let loginStage = "username";
 let loginBusy = false;
 let passwordDisplay = "";
+let passwordValue = "";
 
 const loginUsername = "ADMIN";
 const loginPassword = "1982";
@@ -86,7 +87,7 @@ async function showLogin() {
 
     input.type = "text";
     input.value = "";
-    passwordDisplay = "";
+    passwordValue = "";
 
     input.focus();
 
@@ -101,70 +102,72 @@ async function processLogin(value) {
 
     loginBusy = true;
 
-    try {
+    if (loginStage === "username") {
 
-        if (loginStage === "username") {
+        if (value.toUpperCase() === loginUsername) {
 
-            if (value.toUpperCase() === loginUsername) {
+            print("USERNAME: " + value);
+            print("");
 
-                print("USERNAME: " + value);
-                print("");
+            input.value = "";
 
-                input.value = "";
+            await typeText("PASSWORD:");
 
-                await typeText("PASSWORD:");
+            loginStage = "password";
+            passwordValue = "";
 
-                loginStage = "password";
-                input.type = "password";
+        } else {
 
-            } else {
+            print("USERNAME: " + value);
+            await typeText("INVALID USERNAME");
+            print("");
 
-                print("USERNAME: " + value);
-                await typeText("INVALID USERNAME");
-                print("");
+            await typeText("USERNAME:");
 
-                await typeText("USERNAME:");
-
-                input.value = "";
-            }
-
-            return;
+            input.value = "";
         }
 
-        if (loginStage === "password") {
+        loginBusy = false;
+        input.focus();
+        updateCursor();
 
-            if (value === loginPassword) {
-        
-                print("PASSWORD: " + "*".repeat(value.length));
-                print("");
-        
-                await typeText("ACCESS GRANTED");
-                print("");
-        
-                loggedIn = true;
-                loginStage = "username";
-        
-                input.value = "";
-                passwordDisplay = "";
-        
-                updatePrompt();
-        
-            } else {
-        
-                print("PASSWORD: " + "*".repeat(value.length));
-                await typeText("ACCESS DENIED");
-                print("");
-        
-                await typeText("PASSWORD:");
-        
-                input.value = "";
-                passwordDisplay = "";
-            }
-        
-            loginBusy = false;
-            input.focus();
-            updateCursor();
+        return;
+    }
+
+    if (loginStage === "password") {
+
+        if (value === loginPassword) {
+
+            print("PASSWORD: " + "*".repeat(value.length));
+            print("");
+
+            await typeText("ACCESS GRANTED");
+            print("");
+
+            loggedIn = true;
+            loginStage = "username";
+
+            input.value = "";
+            passwordValue = "";
+
+            updatePrompt();
+
+        } else {
+
+            print("PASSWORD: " + "*".repeat(value.length));
+            await typeText("ACCESS DENIED");
+            print("");
+
+            await typeText("PASSWORD:");
+
+            input.value = "";
+            passwordValue = "";
         }
+
+        loginBusy = false;
+        input.focus();
+        updateCursor();
+    }
 }
 
 async function executeCommand(commandLine) {
@@ -417,7 +420,35 @@ function updateCursor() {
 }
 
 // Typing
-input.addEventListener("input", updateCursor);
+input.addEventListener("input", function () {
+
+    if (loginStage !== "password") {
+        updateCursor();
+        return;
+    }
+
+    const newLength = input.value.length;
+
+    if (newLength > passwordValue.length) {
+
+        // New character was typed
+        passwordValue += input.value.slice(passwordValue.length);
+
+    } else if (newLength < passwordValue.length) {
+
+        // Character was deleted
+        passwordValue = passwordValue.slice(0, newLength);
+    }
+
+    // Replace what is visible with stars
+    input.value = "*".repeat(passwordValue.length);
+
+    // Put cursor at the end
+    input.selectionStart = input.value.length;
+    input.selectionEnd = input.value.length;
+
+    updateCursor();
+});
 
 // Clicking within text
 input.addEventListener("click", updateCursor);
@@ -451,9 +482,15 @@ input.addEventListener("keydown", async function (event) {
     if (loginBusy) {
         return;
     }
+    
+    let commandLine;
 
-    const commandLine = input.value.trim();
-
+    if (loginStage === "password") {
+        commandLine = passwordValue;
+    } else {
+        commandLine = input.value.trim();
+    }
+    
     if (!commandLine) {
         return;
     }
