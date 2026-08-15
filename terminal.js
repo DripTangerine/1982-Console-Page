@@ -112,22 +112,23 @@ const filesystem = {
 async function showLogin() {
 
     output.textContent = "";
+    prompt.textContent = "";
 
     cursor.style.opacity = "0";
 
     await typeText("HALODYNE COMPUTING");
-    await pause(200)
-    await typeText("COPYRIGHT 1982")
-    await pause(500)
+    await pause(200);
+    await typeText("COPYRIGHT 1982");
+    await pause(500);
     await loadingBar(20);
+
     print("");
-    await pause(250)
+    await pause(250);
+
     await typeText("SYSTEM ACCESS REQUIRED");
     print("");
 
     await typeText("USERNAME:");
-
-    prompt.textContent = "";
 
     input.type = "text";
     input.value = "";
