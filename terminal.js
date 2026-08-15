@@ -131,6 +131,7 @@ async function showLogin() {
     typingSpeed = 150;
     await typeText("HALODYNE COMPUTING");
     await pause(200);
+    typingSpeed = 15;
     await typeText("COPYRIGHT 1982");
     print("")
     print("")
