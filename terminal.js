@@ -108,6 +108,9 @@ async function commandLS() {
 // TYPE
 // -------------------------
 
+let pendingType = null;
+let pendingTimer = null;
+
 async function commandTYPE(filename) {
 
     if (!filename) {
@@ -124,26 +127,30 @@ async function commandTYPE(filename) {
         return;
     }
 
-    try {
+    // If another TYPE command is waiting,
+    // start both together.
+    if (pendingType) {
 
-        const response = await fetch(file.path);
+        clearTimeout(pendingTimer);
 
-        if (!response.ok) {
-            await typeText("ERR FFx2");
-            return;
+        const firstFile = pendingType;
+        pendingType = null;
+
+        await runSyncedFiles(firstFile, file);
+        return;
+    }
+
+    // Wait 500ms before running normally.
+    pendingType = file;
+
+    pendingTimer = setTimeout(async () => {
+
+        if (pendingType === file) {
+            pendingType = null;
+            await runFile(file);
         }
 
-        const text = await response.text();
-
-        print("");
-        await typeText(text);
-
-    } catch (error) {
-
-        await typeText("ERR FFx2");
-        console.error(error);
-
-    }
+    }, 500);
 }
 
 // -------------------------
