@@ -97,66 +97,69 @@ async function processLogin(value) {
 
     loginBusy = true;
 
-    if (loginStage === "username") {
+    try {
 
-        if (value.toUpperCase() === loginUsername) {
+        if (loginStage === "username") {
 
-            print("USERNAME: " + value);
-            print("");
+            if (value.toUpperCase() === loginUsername) {
 
-            input.value = "";
+                print("USERNAME: " + value);
+                print("");
 
-            await typeText("PASSWORD:");
+                input.value = "";
 
-            loginStage = "password";
-            input.type = "password";
+                await typeText("PASSWORD:");
 
-        } else {
+                loginStage = "password";
+                input.type = "password";
 
-            print("USERNAME: " + value);
-            await typeText("INVALID USERNAME");
-            print("");
+            } else {
 
-            await typeText("USERNAME:");
+                print("USERNAME: " + value);
+                await typeText("INVALID USERNAME");
+                print("");
+
+                await typeText("USERNAME:");
+
+                input.value = "";
+            }
+
+            return;
         }
 
-        input.value = "";
-        loginBusy = false;
-        input.focus();
-        updateCursor();
+        if (loginStage === "password") {
 
-        return;
-    }
+            if (value === loginPassword) {
 
-    if (loginStage === "password") {
+                print("PASSWORD: ********");
+                print("");
 
-        if (value === loginPassword) {
+                await typeText("ACCESS GRANTED");
+                print("");
 
-            print("PASSWORD: ********");
-            print("");
+                loggedIn = true;
 
-            await typeText("ACCESS GRANTED");
-            print("");
+                input.type = "text";
+                input.value = "";
 
-            loggedIn = true;
+                updatePrompt();
 
-            input.type = "text";
-            input.value = "";
-            
-            updatePrompt();
+            } else {
 
-        } else {
+                print("PASSWORD: ********");
+                await typeText("ACCESS DENIED");
+                print("");
 
-            print("PASSWORD: ********");
-            await typeText("ACCESS DENIED");
-            print("");
+                await typeText("PASSWORD:");
 
-            await typeText("PASSWORD:");
-
-            input.value = "";
+                input.value = "";
+            }
         }
 
+    } finally {
+
         loginBusy = false;
+
         input.focus();
         updateCursor();
     }
