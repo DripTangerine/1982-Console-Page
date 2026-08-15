@@ -125,17 +125,17 @@ async function showLogin() {
     print("");
     await pause(250);
 
-    await typeText("SYSTEM ACCESS REQUIRED");
+   await typeText("SYSTEM ACCESS REQUIRED");
     print("");
-
-    await typeText("USERNAME:");
-
+    
+    prompt.textContent = "USERNAME:";
+    
     input.type = "text";
     input.value = "";
     passwordValue = "";
-
+    
     input.focus();
-
+    
     cursor.style.opacity = "1";
 }
 
@@ -151,24 +151,24 @@ async function processLogin(value) {
 
         if (value.toUpperCase() === loginUsername) {
 
-            print("USERNAME: " + value);
+            print(prompt.textContent + " " + value);
             print("");
-
+            
             input.value = "";
-
-            await typeText("PASSWORD:");
-
+            
+            prompt.textContent = "PASSWORD:";
+            
             loginStage = "password";
             passwordValue = "";
 
         } else {
 
-            print("USERNAME: " + value);
+            print(prompt.textContent + " " + value);
             await typeText("INVALID USERNAME");
             print("");
-
-            await typeText("USERNAME:");
-
+            
+            prompt.textContent = "USERNAME:";
+            
             input.value = "";
         }
 
@@ -180,13 +180,13 @@ async function processLogin(value) {
     }
 
     if (loginStage === "password") {
-
+      
         if (value === loginPassword) {
-
-            print("PASSWORD: " + "*".repeat(value.length));
-            print("");
-
-            await typeText("ACCESS GRANTED");
+    
+        print(prompt.textContent + " " + "*".repeat(value.length));
+        print("");
+    
+        await typeText("ACCESS GRANTED");
             print("");
 
             loggedIn = true;
@@ -199,11 +199,11 @@ async function processLogin(value) {
 
         } else {
 
-            print("PASSWORD: " + "*".repeat(value.length));
+            print(prompt.textContent + " " + "*".repeat(value.length));
             await typeText("ACCESS DENIED");
             print("");
-
-            await typeText("PASSWORD:");
+            
+            prompt.textContent = "PASSWORD:";
 
             input.value = "";
             passwordValue = "";
