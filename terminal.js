@@ -7,6 +7,12 @@ let currentPath = [];
 let pendingType = null;
 let pendingTypeTimer = null;
 
+let loggedIn = false;
+let loginStage = "username";
+
+const loginUsername = "ADMIN";
+const loginPassword = "1982";
+
 // -------------------------
 // TERMINAL OUTPUT
 // -------------------------
@@ -61,6 +67,77 @@ const filesystem = {
 // -------------------------
 // COMMANDS
 // -------------------------
+
+async function showLogin() {
+
+    output.textContent = "";
+
+    await typeText("1982 CONSOLE SYSTEM");
+    await typeText("SYSTEM ACCESS REQUIRED");
+    print("");
+
+    await typeText("USERNAME:");
+    
+    prompt.textContent = "";
+
+    input.value = "";
+    input.focus();
+}
+
+async function processLogin(value) {
+
+    if (loginStage === "username") {
+
+        if (value.toUpperCase() === loginUsername) {
+
+            print("USERNAME: " + value);
+            print("");
+
+            await typeText("PASSWORD:");
+
+            loginStage = "password";
+            input.value = "";
+
+        } else {
+
+            print("USERNAME: " + value);
+            await typeText("INVALID USERNAME");
+            print("");
+
+            await typeText("USERNAME:");
+            input.value = "";
+        }
+
+        return;
+    }
+
+    if (loginStage === "password") {
+
+        if (value === loginPassword) {
+
+            print("PASSWORD: ********");
+            print("");
+
+            await typeText("ACCESS GRANTED");
+            print("");
+
+            loggedIn = true;
+
+            updatePrompt();
+
+            input.value = "";
+
+        } else {
+
+            print("PASSWORD: ********");
+            await typeText("ACCESS DENIED");
+            print("");
+
+            await typeText("PASSWORD:");
+            input.value = "";
+        }
+    }
+}
 
 async function executeCommand(commandLine) {
 
@@ -349,6 +426,17 @@ input.addEventListener("keydown", async function (event) {
         return;
     }
 
+    // LOGIN SCREEN
+    if (!loggedIn) {
+
+        await processLogin(commandLine);
+
+        updateCursor();
+
+        return;
+    }
+
+    // NORMAL TERMINAL
     print(prompt.textContent + " " + commandLine);
 
     input.value = "";
@@ -361,3 +449,6 @@ input.addEventListener("keydown", async function (event) {
 
     input.focus();
 });
+
+updatePrompt();
+showLogin();
