@@ -459,8 +459,6 @@ async function commandERROR() {
 
 // BAUD
 
-let typingSpeed = 33; // Default: 300 baud
-
 async function commandBAUD(baud) {
     const baudRates = {
         "50": 200,
