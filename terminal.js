@@ -275,6 +275,10 @@ async function executeCommand(commandLine) {
         case "BAUD":
             await commandBAUD(parts[1]);
             break;
+
+        case "SYS":
+            await commandSYS();
+            break;
             
         default:
             await typeText("ERR SYx1");
@@ -459,6 +463,7 @@ async function commandERROR() {
 
 // BAUD
 
+let currentBaud = 300
 async function commandBAUD(baud) {
     const baudRates = {
         "50": 200,
@@ -470,12 +475,35 @@ async function commandBAUD(baud) {
     };
 
     if (baudRates[baud]) {
+        currentBaud = Number(baud);
         typingSpeed = baudRates[baud];
-        print(`COM ADAPTER ${baud} BAUD`);
+
+        print(`COM ADAPTER ${currentBaud} BAUD`);
     } else {
         print("INVALID BAUD RATE");
     }
 }
+
+//SYS
+
+async function commandSYS() {
+    print("");
+    await typeText("HALODYNE FILE TERMINAL 1982 - FT82-600C/A");
+    await typeText("MODEL REVISION 1.1.8");
+    print("");
+    await typeText("CPU: HC-81 3.00MHz");
+    await typeText("MEMORY: 8192 BYTES");
+    await typeText("DISPLAY: HDA-79 MODEL B");
+    print("")
+    await typeText("COMMUNICATION ADAPTER: HCA-82-600");
+    await typeText(`CURRENT RATE: ${currentBaud} BAUD`)
+    await typeText("SUPPORTED RATES: 50, 75, 110, 150, 300, 600");
+    print("")
+    await typeText("STORAGE: HFS-78-400");
+    await typeText("CAPACITY: 4.00 MB");
+    await typeText("AVAILABLE: 2.89 MB");
+    print("");
+    
 
 // INPUT / CURSOR
 
