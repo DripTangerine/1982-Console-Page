@@ -144,11 +144,10 @@ async function showLogin() {
 
     print("");
     await pause(250);
-    await typeText("BAUD RATE ..... 300");
     await typeText("CPU ........... OK");
     await typeText("MEMORY ........ 8192 OK");
     await typeText("DISPLAY ....... OK");
-    await typeText("COM ADAPTER ... OK");
+    await typeText("COM ADAPTER ... 300 BAUD OK");
     await typeText("PHONELINE ..... DISCONNECTED");
     print("");
 
@@ -474,7 +473,7 @@ async function commandBAUD(baud) {
 
     if (baudRates[baud]) {
         typingSpeed = baudRates[baud];
-        print(`BAUD RATE SET TO ${baud}`);
+        print(`COM ADAPTER ${baud} BAUD`);
     } else {
         print("INVALID BAUD RATE");
     }
