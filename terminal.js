@@ -66,7 +66,7 @@ function updatePrompt() {
     }
 }
 
-let typingSpeed = 15;
+let typingSpeed = 33;
 
 async function typeText(text) {
     for (const character of text) {
@@ -135,12 +135,12 @@ async function showLogin() {
     typingSpeed = 150;
     await typeText("HALODYNE COMPUTING");
     await pause(200);
-    typingSpeed = 15;
+    typingSpeed = 33;
     await typeText("COPYRIGHT 1982");
     print("");
     await pause(500);
     await typeText("VERIFYING SYSTEM FILES");
-    await loadingBar(10);
+    await loadingBar(25);
 
     print("");
     await pause(250);
@@ -451,6 +451,28 @@ async function commandERROR() {
     await typeText("ERR FFx2 -- FILE NOT FOUND");
     await typeText("ERR DFx3 -- DIRECTORY NOT FOUND");
     await typeText("ERR ICx4 -- INSUFFICIENT CLEARANCE");
+}
+
+// BAUD
+
+let typingSpeed = 33; // Default: 300 baud
+
+async function commandBAUD(baud) {
+    const baudRates = {
+        "50": 200,
+        "75": 133,
+        "110": 91,
+        "150": 67,
+        "300": 33,
+        "600": 17,
+    };
+
+    if (baudRates[baud]) {
+        typingSpeed = baudRates[baud];
+        print(`BAUD RATE SET TO ${baud}`);
+    } else {
+        print("INVALID BAUD RATE");
+    }
 }
 
 // INPUT / CURSOR
