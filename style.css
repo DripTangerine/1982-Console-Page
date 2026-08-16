@@ -37,8 +37,20 @@ body {
 }
 /* Terminal text */
 #output {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+
     white-space: pre-wrap;
     line-height: 1.05;
+
+    scrollbar-width: none;
+}
+
+#output::-webkit-scrollbar {
+    display: none;
+}
+#output::-webkit-scrollbar {
+    display: none;
 }
 
 /* Command line */
