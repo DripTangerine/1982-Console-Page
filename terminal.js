@@ -140,6 +140,7 @@ async function showLogin() {
     print("")
     print("")
     await pause(500);
+    await typeText("VERIFYING SYSTEM FILES");
     await loadingBar(10);
 
     print("");
