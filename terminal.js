@@ -78,6 +78,12 @@ async function typeText(text) {
     output.scrollTop = output.scrollHeight;
 }
 
+function scrollToInput() {
+    const terminal = document.getElementById("terminal");
+
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
 function pause(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -566,8 +572,9 @@ input.addEventListener("keydown", async function (event) {
     await executeCommand(commandLine);
 
     updatePrompt();
-
+    
     input.focus();
+    scrollToInput();
 });
 updatePrompt();
 showLogin();
