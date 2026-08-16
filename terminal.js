@@ -140,12 +140,21 @@ async function showLogin() {
     print("")
     print("")
     await pause(500);
-    await loadingBar(20);
+    await loadingBar(10);
 
     print("");
     await pause(250);
+    await typeText("BAUD RATE ..... 300");
+    await typeText("CPU ........... OK");
+    await typeText("MEMORY ........ 8192 OK");
+    await typeText("DISPLAY ....... OK");
+    await typeText("DISK DRIVE .... OK");
+    await typeText("COM ADAPTER ... OK");
+    await typeText("MODEM ......... OK");
+    await typeText("PHONELINE ..... DISCONNECTED");
+    print("");
 
-   await typeText("SYSTEM ACCESS REQUIRED");
+    await typeText("SYSTEM ACCESS REQUIRED");
     print("");
     
     prompt.textContent = "USERNAME:";
