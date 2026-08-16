@@ -480,9 +480,9 @@ async function commandBAUD(baud) {
         currentBaud = Number(baud);
         typingSpeed = baudRates[baud];
 
-        print(`COM ADAPTER ${currentBaud} BAUD`);
+        await typeText(`COM ADAPTER ${currentBaud} BAUD`);
     } else {
-        print("INVALID BAUD RATE");
+        await typeText("INVALID BAUD RATE");
     }
 }
 
