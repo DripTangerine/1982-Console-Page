@@ -273,8 +273,13 @@ async function executeCommand(commandLine) {
             await commandERROR();
             break;
 
+        case "BAUD":
+            await commandBAUD(parts[1]);
+            break;
+            
         default:
             await typeText("ERR SYx1");
+            break;
     }
 }
 
