@@ -137,8 +137,7 @@ async function showLogin() {
     await pause(200);
     typingSpeed = 15;
     await typeText("COPYRIGHT 1982");
-    print("")
-    print("")
+    print("");
     await pause(500);
     await typeText("VERIFYING SYSTEM FILES");
     await loadingBar(10);
@@ -149,9 +148,7 @@ async function showLogin() {
     await typeText("CPU ........... OK");
     await typeText("MEMORY ........ 8192 OK");
     await typeText("DISPLAY ....... OK");
-    await typeText("DISK DRIVE .... OK");
     await typeText("COM ADAPTER ... OK");
-    await typeText("MODEM ......... OK");
     await typeText("PHONELINE ..... DISCONNECTED");
     print("");
 
