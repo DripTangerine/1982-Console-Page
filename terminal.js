@@ -439,11 +439,13 @@ async function commandHELP() {
     await typeText("AVAILABLE COMMANDS:");
     print("");
 
-    await typeText("LS  --  DISPLAYS ALL FILES IN CURRENT DIRECTORY");
-    await typeText("TYPE_<filename>  --  DISPLAYS CONTENTS OF SPECIFIED FILE");
-    await typeText("CLS  --  CLEARS SCREEN");
-    await typeText("HELP --  DISPLAYS CURRENT SCREEN");
-    await typeText("ERROR --  DISPLAYS ERROR CODES");
+    await typeText("LS  -----------------  DISPLAYS ALL FILES IN CURRENT DIRECTORY");
+    await typeText("TYPE <filename>  ----  DISPLAYS CONTENTS OF SPECIFIED FILE");
+    await typeText("CLS  ----------------  CLEARS SCREEN");
+    await typeText("HELP ----------------  DISPLAYS CURRENT SCREEN");
+    await typeText("ERROR ---------------  DISPLAYS ERROR CODES");
+    await typeText("BAUD ---------------- CHANGES COMMUNICATION RATE");
+    await typeText("SYS ----------------- DISPLAYS SYSTEM INFORMATION");
     print("");
 }
 
