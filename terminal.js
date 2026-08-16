@@ -12,6 +12,7 @@ let loginStage = "username";
 let loginBusy = false;
 let passwordDisplay = "";
 let passwordValue = "";
+let connection = "DISCONNECTED";
 
 const loginUsername = "ADMIN";
 const loginPassword = "1982";
@@ -499,6 +500,7 @@ async function commandSYS() {
     await typeText("COMMUNICATION ADAPTER: HCA-82-600");
     await typeText(`CURRENT RATE: ${currentBaud} BAUD`);
     await typeText("SUPPORTED RATES: 50, 75, 110, 150, 300, 600");
+    await typeText(`CURRENT CONNECTION: ${connection}`);
     print("")
     await typeText("STORAGE: HFS-78-400");
     await typeText("CAPACITY: 4.00 MB");
