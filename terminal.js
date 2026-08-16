@@ -44,7 +44,7 @@ async function loadingBar(length = 20) {
             percentage +
             "%";
 
-        window.scrollTo(0, document.body.scrollHeight);
+        output.scrollTop = output.scrollHeight;
     }
 
     output.appendChild(document.createElement("div"));
@@ -55,7 +55,7 @@ async function loadingBar(length = 20) {
 
 function print(text = "") {
     output.textContent += text + "\n";
-    window.scrollTo(0, document.body.scrollHeight);
+    output.scrollTop = output.scrollHeight;
 }
 
 function updatePrompt() {
@@ -75,7 +75,7 @@ async function typeText(text) {
     }
 
     output.textContent += "\n";
-    window.scrollTo(0, document.body.scrollHeight);
+    output.scrollTop = output.scrollHeight;
 }
 
 function pause(ms) {
@@ -400,7 +400,7 @@ async function runSyncedFiles(file1, file2) {
 
         output.textContent += "\n";
 
-        window.scrollTo(0, document.body.scrollHeight);
+        output.scrollTop = output.scrollHeight;
 
     } catch (error) {
 
