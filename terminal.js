@@ -10,12 +10,39 @@ let pendingTypeTimer = null;
 let loggedIn = false;
 let loginStage = "username";
 let loginBusy = false;
-let passwordDisplay = "";
 let passwordValue = "";
 let connection = "DISCONNECTED";
 
-const loginUsername = "ADMIN";
-const loginPassword = "1982";
+const user = [
+    {username: "ADMIN",
+     password: "CALISTER1959",
+     clearance: 2
+    },
+    {username: "USER1",
+     password: "EXPECT1",
+     clearance: 6
+    },
+    {username: "EZEKIEL",
+     password: "WINTERGR0VE873",
+     clearance: 4
+    },
+    {username: "MASTERACCESS",
+     password: "H82MKEY452318",
+     clearance: 10
+    },
+    {username: "GUEST",
+     password: "",
+     clearance: 1
+    }
+];
+let currentUser = null;
+
+const errorCodes = {
+    syntax: "ERR SYx1",
+    fileNotFound: "ERR FFx2",
+    directoryNotFound: "ERR DFx3",
+    insufficientClearance: "ERR ICx4"
+};
 
 async function loadingBar(length = 20) {
 
@@ -69,6 +96,10 @@ function updatePrompt() {
 
 let typingSpeed = 33;
 
+function hasClearance(requiredLevel) {
+    return currentUser && currentUser.clearance >= requiredLevel;
+}
+
 async function typeText(text) {
     for (const character of text) {
         output.textContent += character;
@@ -96,17 +127,20 @@ function pause(ms) {
 const filesystem = {
     "README.TXT": {
         type: "file",
-        path: "./C:/README.TXT"
+        path: "./C:/README.TXT",
+        clearance: 1
     },
 
     "TEST1.TXT": {
         type: "file",
-        path: "./C:/TEST1.TXT"
+        path: "./C:/TEST1.TXT",
+        clearance: 1
     },
 
     "TEST2.TXT": {
         type: "file",
-        path: "./C:/TEST2.TXT"
+        path: "./C:/TEST2.TXT",
+        clearance: 1
     }
     
 };
@@ -114,8 +148,10 @@ const filesystem = {
 
 // COMMANDS
 
-
 async function showLogin() {
+    loggedIn = false;
+    loginStage = "username";
+    currentUser = null;
 
     output.textContent = "";
     prompt.textContent = "";
@@ -123,49 +159,59 @@ async function showLogin() {
     cursor.style.opacity = "0";
 
     loginBusy = true;
+    loginStage = "username";
+    currentUser = null;
+
     typingSpeed = 1;
-    await typeText(String.raw`__/\\\________/\\\_____/\\\\\\\\\_____/\\\___________________/\\\\\_______/\\\\\\\\\\\\_____/\\\________/\\\__/\\\\\_____/\\\__/\\\\\\\\\\\\\\\_        
- _\/\\\_______\/\\\___/\\\\\\\\\\\\\__\/\\\_________________/\\\///\\\____\/\\\////////\\\__\///\\\____/\\\/__\/\\\\\\___\/\\\_\/\\\///////////__       
-  _\/\\\_______\/\\\__/\\\/////////\\\_\/\\\_______________/\\\/__\///\\\__\/\\\______\//\\\___\///\\\/\\\/____\/\\\/\\\__\/\\\_\/\\\_____________      
-   _\/\\\\\\\\\\\\\\\_\/\\\_______\/\\\_\/\\\______________/\\\______\//\\\_\/\\\_______\/\\\_____\///\\\/______\/\\\//\\\_\/\\\_\/\\\\\\\\\\\_____     
-    _\/\\\/////////\\\_\/\\\\\\\\\\\\\\\_\/\\\_____________\/\\\_______\/\\\_\/\\\_______\/\\\_______\/\\\_______\/\\\\//\\\\/\\\_\/\\\///////______    
-     _\/\\\_______\/\\\_\/\\\/////////\\\_\/\\\_____________\//\\\______/\\\__\/\\\_______\/\\\_______\/\\\_______\/\\\_\//\\\/\\\_\/\\\_____________   
-      _\/\\\_______\/\\\_\/\\\_______\/\\\_\/\\\______________\///\\\__/\\\____\/\\\_______/\\\________\/\\\_______\/\\\__\//\\\\\\_\/\\\_____________  
-       _\/\\\_______\/\\\_\/\\\_______\/\\\_\/\\\\\\\\\\\\\\\____\///\\\\\/_____\/\\\\\\\\\\\\/_________\/\\\_______\/\\\___\//\\\\\_\/\\\\\\\\\\\\\\\_ 
-        _\///________\///__\///________\///__\///////////////_______\/////_______\////////////___________\///________\///_____\/////__\///////////////__`);
+
+    await typeText(String.raw` _  _  __  _   __  __ __   ____  _ ___  
+| || |/  \| | /__\| _\\ 'v' /  \| | __| 
+| >< | /\ | || \/ | v |'. .'| | ' | _|  
+|_||_|_||_|___\__/|__/  !_! |_|\__|___| `);
+
     typingSpeed = 150;
     await typeText("HALODYNE COMPUTING");
+
     await pause(200);
+
     typingSpeed = 33;
     await typeText("COPYRIGHT 1982");
+
     print("");
+
     await pause(500);
+
     await typeText("VERIFYING SYSTEM FILES");
     await loadingBar(25);
 
     print("");
+
     await pause(250);
+
     await typeText("CPU ........... OK");
     await typeText("MEMORY ........ 8192 OK");
     await typeText("DISPLAY ....... OK");
     await typeText("COM ADAPTER ... 300 BAUD OK");
     await typeText("PHONELINE ..... DISCONNECTED");
+
     print("");
 
     await typeText("SYSTEM ACCESS REQUIRED");
+
     print("");
-    
+
     prompt.textContent = "USERNAME:";
-    
+
     input.type = "text";
     input.value = "";
     passwordValue = "";
-    
+
     input.focus();
-    
+
     cursor.style.opacity = "1";
     loginBusy = false;
 }
+
 
 async function processLogin(value) {
 
@@ -175,29 +221,62 @@ async function processLogin(value) {
 
     loginBusy = true;
 
+    // USERNAME
     if (loginStage === "username") {
 
-        if (value.toUpperCase() === loginUsername) {
+        const username = value.toUpperCase();
+
+        const foundUser = user.find(
+            account => account.username === username
+        );
+
+        if (!foundUser) {
 
             print(prompt.textContent + " " + value);
+
+            await typeText("INVALID USERNAME");
+
             print("");
-            
+
+            prompt.textContent = "USERNAME:";
             input.value = "";
-            
-            prompt.textContent = "PASSWORD:";
-            
-            loginStage = "password";
-            passwordValue = "";
+
+            loginBusy = false;
+            input.focus();
+            updateCursor();
+
+            return;
+        }
+
+        // Store the logged-in user
+        currentUser = foundUser;
+
+        print(prompt.textContent + " " + value);
+        print("");
+
+        input.value = "";
+
+        // GUEST/passwordless account
+        if (currentUser.password === "") {
+
+            await typeText("ACCESS GRANTED");
+            print("");
+
+            loggedIn = true;
+            loginStage = "username";
+
+            await pause(200);
+
+            output.textContent = "";
+
+            updatePrompt();
 
         } else {
 
-            print(prompt.textContent + " " + value);
-            await typeText("INVALID USERNAME");
-            print("");
-            
-            prompt.textContent = "USERNAME:";
-            
-            input.value = "";
+            // Normal account requiring a password
+            prompt.textContent = "PASSWORD:";
+            loginStage = "password";
+            passwordValue = "";
         }
 
         loginBusy = false;
@@ -207,14 +286,20 @@ async function processLogin(value) {
         return;
     }
 
+
+    // PASSWORD
     if (loginStage === "password") {
-      
-        if (value === loginPassword) {
-    
-        print(prompt.textContent + " " + "*".repeat(value.length));
-        print("");
-    
-        await typeText("ACCESS GRANTED");
+
+        if (value === currentUser.password) {
+
+            print(
+                prompt.textContent + " " + "*".repeat(value.length)
+            );
+
+            print("");
+
+            await typeText("ACCESS GRANTED");
+
             print("");
 
             loggedIn = true;
@@ -223,17 +308,22 @@ async function processLogin(value) {
             input.value = "";
             passwordValue = "";
 
-            await pause(200)
+            await pause(200);
+
             output.textContent = "";
 
             updatePrompt();
 
         } else {
 
-            print(prompt.textContent + " " + "*".repeat(value.length));
+            print(
+                prompt.textContent + " " + "*".repeat(value.length)
+            );
+
             await typeText("ACCESS DENIED");
+
             print("");
-            
+
             prompt.textContent = "PASSWORD:";
 
             input.value = "";
@@ -254,35 +344,70 @@ async function executeCommand(commandLine) {
     switch (command) {
 
         case "LS":
+            if (!hasClearance(1)) {
+                await giveError("insufficientClearance");
+                break;
+            }
+                
             await commandLS();
             break;
 
         case "TYPE":
+            if (!hasClearance(1)) {
+                await giveError("insufficientClearance");
+                break;
+            }
+            
             await commandTYPE(parts[1]);
             break;
 
         case "CLS":
+            if (!hasClearance(1)) {
+                await giveError("insufficientClearance");
+                break;
+            }
+            
             output.textContent = "";
             break;
 
         case "HELP":
+            if (!hasClearance(1)) {
+                await giveError("insufficientClearance");
+                break;
+            }
+            
             await commandHELP();
             break;
 
         case "ERROR":
+            if (!hasClearance(1)) {
+                await giveError("insufficientClearance");
+                break;
+            }
+            
             await commandERROR();
             break;
 
         case "BAUD":
+            if (!hasClearance(2)) {
+                await giveError("insufficientClearance");
+                break;
+            }
+            
             await commandBAUD(parts[1]);
             break;
 
         case "SYS":
+            if (!hasClearance(2)) {
+                await giveError("insufficientClearance");
+                break;
+            }
+            
             await commandSYS();
             break;
             
         default:
-            await typeText("ERR SYx1");
+            await giveError("syntax")
             break;
     }
 }
@@ -292,7 +417,7 @@ async function executeCommand(commandLine) {
 async function commandLS() {
 
     if (currentPath.length !== 0) {
-        await typeText("ERR DFx3");
+        await giveError("directoryNotFound")
         return;
     }
 
@@ -313,8 +438,13 @@ async function commandLS() {
 async function commandTYPE(filename) {
 
     if (!filename) {
-        await typeText("ERR FFx2");
+        await giveError("fileNotFound")
         return;
+    }
+
+    if (!hasClearance(file.clearance ?? 1)) {
+    await giveError("insufficientClearance");
+    return;
     }
 
     filename = filename.toUpperCase();
@@ -322,7 +452,7 @@ async function commandTYPE(filename) {
     const file = filesystem[filename];
 
     if (!file || file.type !== "file") {
-        await typeText("ERR FFx2");
+        await giveError("fileNotFound")
         return;
     }
 
@@ -365,7 +495,7 @@ async function runFile(file) {
         const response = await fetch(file.path);
 
         if (!response.ok) {
-            await typeText("ERR FFx2");
+            await giveError("fileNotFound")
             return;
         }
 
@@ -376,7 +506,7 @@ async function runFile(file) {
 
     } catch (error) {
 
-        await typeText("ERR FFx2");
+        await giveError("fileNotFound")
         console.error(error);
 
     }
@@ -392,7 +522,7 @@ async function runSyncedFiles(file1, file2) {
         ]);
 
         if (!response1.ok || !response2.ok) {
-            await typeText("ERR FFx2");
+            await giveError("fileNotFound")
             return;
         }
 
@@ -426,7 +556,7 @@ async function runSyncedFiles(file1, file2) {
 
     } catch (error) {
 
-        await typeText("ERR FFx2");
+        await giveError("fileNotFound")
         console.error(error);
 
     }
@@ -440,13 +570,19 @@ async function commandHELP() {
     await typeText("AVAILABLE COMMANDS:");
     print("");
 
-    await typeText("LS  -----------------  DISPLAYS ALL FILES IN CURRENT DIRECTORY");
-    await typeText("TYPE <filename>  ----  DISPLAYS CONTENTS OF SPECIFIED FILE");
-    await typeText("CLS  ----------------  CLEARS SCREEN");
-    await typeText("HELP ----------------  DISPLAYS CURRENT SCREEN");
-    await typeText("ERROR ---------------  DISPLAYS ERROR CODES");
-    await typeText("BAUD <rate> ---------  CHANGES COMMUNICATION RATE");
-    await typeText("SYS -----------------  DISPLAYS SYSTEM INFORMATION");
+    if (hasClearance(1)) {
+        await typeText("LS  -----------------  DISPLAYS ALL FILES IN CURRENT DIRECTORY");
+        await typeText("TYPE <filename>  ----  DISPLAYS CONTENTS OF SPECIFIED FILE");
+        await typeText("CLS  ----------------  CLEARS SCREEN");
+        await typeText("HELP ----------------  DISPLAYS CURRENT SCREEN");
+        await typeText("ERROR ---------------  DISPLAYS ERROR CODES");
+    }
+
+    if (hasClearance(2)) {
+        await typeText("BAUD ---------------- CHANGES COMMUNICATION RATE");
+        await typeText("SYS ----------------- DISPLAYS SYSTEM INFORMATION");
+    }
+
     print("");
 }
 
@@ -458,12 +594,15 @@ async function commandERROR() {
     await typeText("ERROR CODES:");
     print("");
 
-    await typeText("ERR SYx1 -- COMMAND SYNTAX NOT FOUND OR FAILED");
-    await typeText("ERR FFx2 -- FILE NOT FOUND");
-    await typeText("ERR DFx3 -- DIRECTORY NOT FOUND");
-    await typeText("ERR ICx4 -- INSUFFICIENT CLEARANCE");
+    await typeText(`${errorCodes.syntax} -- COMMAND SYNTAX NOT FOUND OR FAILED`);
+    await typeText(`${errorCodes.fileNotFound} -- FILE NOT FOUND`);
+    await typeText(`${errorCodes.directoryNotFound} -- DIRECTORY NOT FOUND`);
+    await typeText(`${errorCodes.insufficientClearance} -- INSUFFICIENT CLEARANCE`);
 }
 
+async function giveError(error) {
+    await typeText(errorCodes[error] || errorCodes.syntax);
+}
 // BAUD
 
 let currentBaud = 300;
